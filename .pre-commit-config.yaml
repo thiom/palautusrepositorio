@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: pylint-nhl-reader
+        name: pylint (viikko2/nhl-reader)
+        entry: bash -c 'cd viikko2/nhl-reader && uv run pylint src'
+        language: system
+        files: ^viikko2/nhl-reader/.*\.py$
+        pass_filenames: false
