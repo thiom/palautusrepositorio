@@ -13,8 +13,8 @@ SEASONS = [
 console = Console()
 
 
-def players_table(season, nationality, players):
-    table = Table(title=f"Season {season} players from {nationality}")
+def players_table(title, players):
+    table = Table(title=title)
     table.add_column("Released", style="cyan")
     table.add_column("teams", style="magenta")
     table.add_column("goals", justify="right", style="green")
@@ -33,21 +33,31 @@ def players_table(season, nationality, players):
     return table
 
 
+def select_players(stats, season, mode):
+    if mode == "nationality":
+        nationality = Prompt.ask("Nationality", choices=stats.nationalities())
+        title = f"Season {season} players from {nationality}"
+        return title, stats.top_scorers_by_nationality(nationality)
+
+    team = Prompt.ask("Team", choices=stats.teams())
+    title = f"Season {season} players of {team}"
+    return title, stats.top_scorers_by_team(team)
+
+
 def main():
     season = Prompt.ask("Season", choices=SEASONS, default="2024-25")
     reader = PlayerReader(f"{BASE_URL}/{season}/players")
     stats = PlayerStats(reader)
-    nationalities = stats.nationalities()
 
     while True:
-        nationality = Prompt.ask(
-            "Nationality", choices=nationalities, default=""
+        mode = Prompt.ask(
+            "Show players by", choices=["nationality", "team"], default=""
         )
-        if nationality == "":
+        if mode == "":
             break
 
-        players = stats.top_scorers_by_nationality(nationality)
-        console.print(players_table(season, nationality, players))
+        title, players = select_players(stats, season, mode)
+        console.print(players_table(title, players))
 
 
 if __name__ == "__main__":
