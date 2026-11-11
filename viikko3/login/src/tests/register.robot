@@ -34,6 +34,41 @@ Register With Username That Is Already In Use
     Click  button >> text=Register
     Register Should Fail With Message  Username is already in use
 
+Register With Password Containing Letters And Numbers
+    Set Username  pekka
+    Set Password  kalle123
+    Set Password Confirmation  kalle123
+    Click  button >> text=Register
+    Register Should Succeed
+
+Register With Password Containing Letters And Special Character
+    Set Username  pekka
+    Set Password  kalle#abc
+    Set Password Confirmation  kalle#abc
+    Click  button >> text=Register
+    Register Should Succeed
+
+Register With Password Containing Only Lowercase Letters
+    Set Username  pekka
+    Set Password  kallekalle
+    Set Password Confirmation  kallekalle
+    Click  button >> text=Register
+    Register Should Fail With Message  Password must not consist of letters only
+
+Register With Password Containing Only Mixed Case Letters
+    Set Username  pekka
+    Set Password  KalleKalle
+    Set Password Confirmation  KalleKalle
+    Click  button >> text=Register
+    Register Should Fail With Message  Password must not consist of letters only
+
+Register With Nonmatching Password And Password Confirmation
+    Set Username  pekka
+    Set Password  pekka123
+    Set Password Confirmation  pekka456
+    Click  button >> text=Register
+    Register Should Fail With Message  Password and password confirmation do not match
+
 *** Keywords ***
 Register Should Succeed
     Welcome Page Should Be Open
