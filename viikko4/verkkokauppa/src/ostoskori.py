@@ -6,9 +6,9 @@ class Ostoskori:
         self._tuotteet.append(tuote)
     
     def poista(self, tuote):
-        self._tuotteet = list(
-            filter(lambda t: t.id != tuote.id, self._tuotteet)
-        )
+        # poistetaan vain yksi kappale (Tuote.__eq__ vertaa id:itä)
+        if tuote in self._tuotteet:
+            self._tuotteet.remove(tuote)
 
     def hinta(self):
         hinnat = map(lambda t: t.hinta, self._tuotteet)
