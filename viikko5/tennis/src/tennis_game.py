@@ -1,4 +1,4 @@
-FORTY = 3
+DEUCE_THRESHOLD = 3
 POINTS_TO_WIN = 4
 ADVANTAGE_MARGIN = 1
 
@@ -28,7 +28,7 @@ class TennisGame:
         return SCORE_NAMES[points]
 
     def _even_score(self):
-        if self.player1_points >= FORTY:
+        if self.player1_points >= DEUCE_THRESHOLD:
             return "Deuce"
         return f"{self._score_name(self.player1_points)}-All"
 
@@ -44,7 +44,9 @@ class TennisGame:
         return f"Win for {self._leader()}"
 
     def _running_score(self):
-        return f"{self._score_name(self.player1_points)}-{self._score_name(self.player2_points)}"
+        player1_score = self._score_name(self.player1_points)
+        player2_score = self._score_name(self.player2_points)
+        return f"{player1_score}-{player2_score}"
 
     def get_score(self):
         if self._is_tied():
